@@ -1,0 +1,138 @@
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+  paths:
+    include:
+    - backend/*
+    - frontend/*
+    - mobile/*
+    - docker/*
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  nodeVersion: '18.x'
+  pythonVersion: '3.11'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildBackend
+    displayName: 'Build Django Backend'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+        addToPath: true
+    
+    - script: |
+        python -m pip install --upgrade pip
+      displayName: 'Upgrade pip'
+    
+    - script: |
+        cd backend
+        pip install -r requirements.txt
+      displayName: 'Install Python dependencies'
+    
+    - script: |
+        cd backend
+        python manage.py check
+      displayName: 'Django check'
+    
+    - script: |
+        cd backend
+        python manage.py test --verbosity=2
+      displayName: 'Run Django tests'
+    
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-results.xml'
+        mergeTestResults: true
+        testRunTitle: 'Django Tests'
+      condition: succeededOrFailed()
+
+  - job: BuildFrontend
+    displayName: 'Build React Frontend'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(nodeVersion)'
+    
+    - script: |
+        cd frontend
+        npm ci
+      displayName: 'Install Node.js dependencies'
+    
+    - script: |
+        cd frontend
+        npm run build
+      displayName: 'Build React app'
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: 'frontend/build'
+        artifactName: 'frontend-build'
+
+  - job: BuildMobile
+    displayName: 'Build React Native Mobile'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(nodeVersion)'
+    
+    - script: |
+        cd mobile/PreConstructionMobile
+        npm ci
+      displayName: 'Install Node.js dependencies'
+    
+    - script: |
+        cd mobile/PreConstructionMobile
+        npm run android
+      displayName: 'Build Android app'
+      continueOnError: true
+
+- stage: Deploy
+  displayName: 'Deploy to Azure'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeployBackend
+    displayName: 'Deploy Django Backend'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: 'Azure Subscription'
+              appName: 'precon-backend'
+              package: '$(Pipeline.Workspace)/backend'
+              appType: 'webApp'
+    
+  - deployment: DeployFrontend
+    displayName: 'Deploy React Frontend'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: 'frontend'
+              output_location: 'build'
+              azure_static_web_apps_api_token: '$(AZURE_STATIC_WEB_APPS_API_TOKEN)'
