@@ -12,8 +12,10 @@ import Projects from './pages/Projects/Projects';
 import Suppliers from './pages/Suppliers/Suppliers';
 import RiskAnalysis from './pages/RiskAnalysis/RiskAnalysis';
 import Analytics from './pages/Analytics/Analytics';
+import Integrations from './pages/Integrations/Integrations';
 import Reports from './pages/Reports/Reports';
 import Settings from './pages/Settings/Settings';
+import AIModels from './pages/AIModels/AIModels';
 
 // Create theme
 const theme = createTheme({
@@ -87,8 +89,10 @@ function App() {
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/risk-analysis" element={<RiskAnalysis />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/integrations" element={<Integrations />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/ai-models" element={<AIModels />} />
             </Routes>
           </Layout>
         </Router>

@@ -22,7 +22,6 @@ import uuid
 from decimal import Decimal
 from typing import Optional, List, Dict, Any
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -74,7 +73,7 @@ class FinancialAccount(models.Model):
     
     # External system mapping
     external_account_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -164,7 +163,7 @@ class FinancialPeriod(models.Model):
     
     # External system mapping
     external_period_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -245,7 +244,7 @@ class GeneralLedgerEntry(models.Model):
     
     # External system mapping
     external_entry_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -303,11 +302,11 @@ class ProfitLossStatement(models.Model):
     currency = models.CharField(max_length=3, default='USD')
     
     # Statement data
-    statement_data = JSONField(default=dict)  # Detailed breakdown by account
+    statement_data = models.JSONField(default=dict)  # Detailed breakdown by account
     
     # External system mapping
     external_statement_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -368,11 +367,11 @@ class BalanceSheet(models.Model):
     currency = models.CharField(max_length=3, default='USD')
     
     # Balance sheet data
-    balance_sheet_data = JSONField(default=dict)  # Detailed breakdown by account
+    balance_sheet_data = models.JSONField(default=dict)  # Detailed breakdown by account
     
     # External system mapping
     external_balance_sheet_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -434,11 +433,11 @@ class CashFlow(models.Model):
     currency = models.CharField(max_length=3, default='USD')
     
     # Cash flow data
-    cash_flow_data = JSONField(default=dict)  # Detailed breakdown by activity
+    cash_flow_data = models.JSONField(default=dict)  # Detailed breakdown by activity
     
     # External system mapping
     external_cash_flow_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -492,7 +491,7 @@ class BudgetVsActual(models.Model):
     
     # External system mapping
     external_comparison_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -556,7 +555,7 @@ class JobCosting(models.Model):
     
     # External system mapping
     external_job_id = models.CharField(max_length=100, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)

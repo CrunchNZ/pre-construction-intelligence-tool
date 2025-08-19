@@ -63,7 +63,7 @@ class Project(models.Model):
     source_system = models.CharField(max_length=50, blank=True)  # e.g., 'Procore', 'Jobpac'
     
     # Metadata
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_projects')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='core_created_projects')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

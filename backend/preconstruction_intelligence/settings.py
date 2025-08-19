@@ -279,6 +279,19 @@ LOGGING = {
 # Create logs directory if it doesn't exist
 os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
 
+# Machine Learning Configuration
+ML_MODELS_DIR = os.path.join(BASE_DIR, 'ml_models')
+os.makedirs(ML_MODELS_DIR, exist_ok=True)
+
+# ML Model Settings
+ML_MODEL_BACKUP_RETENTION_DAYS = int(os.getenv('ML_MODEL_BACKUP_RETENTION_DAYS', 90))
+ML_PREDICTION_RETENTION_DAYS = int(os.getenv('ML_PREDICTION_RETENTION_DAYS', 90))
+ML_TRAINING_TIMEOUT_MINUTES = int(os.getenv('ML_TRAINING_TIMEOUT_MINUTES', 120))
+
+# MLflow Configuration (for model versioning)
+MLFLOW_TRACKING_URI = os.getenv('MLFLOW_TRACKING_URI', 'http://localhost:5000')
+MLFLOW_EXPERIMENT_NAME = os.getenv('MLFLOW_EXPERIMENT_NAME', 'preconstruction_intelligence')
+
 # Security Settings
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True

@@ -21,7 +21,6 @@ import uuid
 from decimal import Decimal
 from typing import Optional, List, Dict, Any
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -63,7 +62,7 @@ class BIMProject(models.Model):
     unified_project = models.ForeignKey('integrations.UnifiedProject', on_delete=models.SET_NULL, null=True, blank=True, related_name='bim_projects')
     
     # External metadata
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -120,7 +119,7 @@ class BIMFolder(models.Model):
     sort_order = models.PositiveIntegerField(default=0)
     
     # External metadata
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -210,8 +209,8 @@ class BIMModel(models.Model):
     )
     
     # Model metadata
-    model_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    model_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -293,8 +292,8 @@ class ModelDerivative(models.Model):
     processing_duration = models.PositiveIntegerField(null=True, blank=True)  # in seconds
     
     # Derivative metadata
-    derivative_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    derivative_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -362,8 +361,8 @@ class ModelViewable(models.Model):
     thumbnail_url = models.URLField(blank=True)
     
     # Viewable metadata
-    viewable_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    viewable_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -418,8 +417,8 @@ class ModelProperty(models.Model):
     property_category = models.CharField(max_length=100, blank=True)
     
     # Property metadata
-    property_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    property_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -481,8 +480,8 @@ class ModelQuantity(models.Model):
     location_zone = models.CharField(max_length=100, blank=True)
     
     # Quantity metadata
-    quantity_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    quantity_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -555,8 +554,8 @@ class ModelClash(models.Model):
     element_2_system = models.CharField(max_length=100, blank=True)
     
     # Clash metadata
-    clash_metadata = JSONField(default=dict, blank=True)
-    external_metadata = JSONField(default=dict, blank=True)
+    clash_metadata = models.JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Resolution information
     resolution_notes = models.TextField(blank=True)

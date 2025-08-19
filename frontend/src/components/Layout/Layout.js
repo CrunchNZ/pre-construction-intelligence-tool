@@ -26,6 +26,7 @@ import {
   Settings as SettingsIcon,
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
+  Psychology as PsychologyIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -38,6 +39,8 @@ const menuItems = [
   { text: 'Suppliers', icon: <PeopleIcon />, path: '/suppliers' },
   { text: 'Risk Analysis', icon: <WarningIcon />, path: '/risk-analysis' },
   { text: 'Analytics', icon: <AnalyticsIcon />, path: '/analytics' },
+  { text: 'AI Models', icon: <PsychologyIcon />, path: '/ai-models' },
+  { text: 'Integrations', icon: <BusinessIcon />, path: '/integrations' },
   { text: 'Reports', icon: <AssessmentIcon />, path: '/reports' },
   { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
 ];

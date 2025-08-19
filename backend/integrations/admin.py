@@ -100,15 +100,12 @@ class UnifiedProjectAdmin(admin.ModelAdmin):
         ('Team', {
             'fields': ('project_manager', 'client', 'architect', 'contractor')
         }),
-        ('Integration', {
-            'fields': ('integration_systems',)
-        }),
         ('Metadata', {
             'fields': ('created_by', 'created_at', 'updated_at')
         }),
     )
     
-    filter_horizontal = ['integration_systems']
+    # Remove filter_horizontal since integration_systems uses a custom through model
     
     def progress_percentage(self, obj):
         """Display progress percentage with color coding."""

@@ -8,6 +8,7 @@ import suppliersReducer from './slices/suppliersSlice';
 import riskReducer from './slices/riskSlice';
 import analyticsReducer from './slices/analyticsSlice';
 import uiReducer from './slices/uiSlice';
+import mlInsightsReducer from './slices/mlInsightsSlice';
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   risk: riskReducer,
   analytics: analyticsReducer,
   ui: uiReducer,
+  mlInsights: mlInsightsReducer,
 });
 
 // Create store

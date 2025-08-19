@@ -21,7 +21,6 @@ import uuid
 from decimal import Decimal
 from typing import Optional, List, Dict, Any
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -60,7 +59,7 @@ class IntegrationSystem(models.Model):
     # Configuration
     base_url = models.URLField(max_length=500)
     api_version = models.CharField(max_length=20, default='v1')
-    credentials = JSONField(default=dict, blank=True)  # Encrypted credentials
+    credentials = models.JSONField(default=dict, blank=True)  # Encrypted credentials
     
     # Connection details
     last_connection = models.DateTimeField(null=True, blank=True)
@@ -173,7 +172,7 @@ class UnifiedProject(models.Model):
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='created_projects')
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='integrations_created_projects')
     
     class Meta:
         db_table = 'unified_projects'
@@ -255,7 +254,7 @@ class ProjectSystemMapping(models.Model):
     sync_error = models.TextField(blank=True)
     
     # Data mapping
-    field_mappings = JSONField(default=dict, blank=True)  # Maps external fields to unified fields
+    field_mappings = models.JSONField(default=dict, blank=True)  # Maps external fields to unified fields
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -325,7 +324,7 @@ class ProjectDocument(models.Model):
     
     # External system data
     external_document_id = models.CharField(max_length=100)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -378,7 +377,7 @@ class ProjectSchedule(models.Model):
     
     # External system data
     external_schedule_id = models.CharField(max_length=100)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -438,7 +437,7 @@ class ProjectFinancial(models.Model):
     
     # External system data
     external_financial_id = models.CharField(max_length=100)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -498,7 +497,7 @@ class ProjectChangeOrder(models.Model):
     
     # External system data
     external_change_order_id = models.CharField(max_length=100)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -564,7 +563,7 @@ class ProjectRFI(models.Model):
     
     # External system data
     external_rfi_id = models.CharField(max_length=100)
-    external_metadata = JSONField(default=dict, blank=True)
+    external_metadata = models.JSONField(default=dict, blank=True)
     
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
