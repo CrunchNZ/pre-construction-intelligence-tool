@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_celery_beat',
     'django_celery_results',
+    'drf_spectacular',
     
     # Local apps
     'core',
@@ -168,6 +169,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # CORS Configuration
@@ -317,3 +319,32 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+# drf-spectacular Configuration
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Pre-Construction Intelligence API',
+    'DESCRIPTION': 'Comprehensive API for pre-construction intelligence platform with AI/ML integration, real-time analytics, and external system integrations.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX': '/api/',
+    'TAGS': [
+        {'name': 'core', 'description': 'Core project and analytics endpoints'},
+        {'name': 'integrations', 'description': 'External system integrations (Procore, Jobpac, Greentree, ProcurePro)'},
+        {'name': 'ai-models', 'description': 'Machine learning models and predictions'},
+        {'name': 'analytics', 'description': 'Historical data analytics and reporting'},
+        {'name': 'kafka', 'description': 'Real-time data streaming endpoints'},
+    ],
+    'SECURITY': [
+        {'Bearer': []},
+        {'Session': []},
+    ],
+    'CONTACT': {
+        'name': 'Pre-Construction Intelligence Team',
+        'email': 'support@preconstruction-intelligence.com',
+    },
+    'LICENSE': {
+        'name': 'MIT License',
+        'url': 'https://opensource.org/licenses/MIT',
+    },
+}

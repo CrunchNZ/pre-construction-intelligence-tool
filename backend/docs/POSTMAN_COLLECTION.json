@@ -1,0 +1,713 @@
+{
+  "info": {
+    "name": "Pre-Construction Intelligence API",
+    "description": "Comprehensive API collection for the Pre-Construction Intelligence platform. Includes all endpoints for projects, suppliers, risk analysis, AI/ML integration, analytics, and real-time data streaming.",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.preconstruction-intelligence.com",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "your_api_key_here",
+      "type": "string"
+    },
+    {
+      "key": "project_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supplier_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "risk_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "// Set common headers for all requests",
+          "pm.request.headers.add({",
+          "    key: 'Content-Type',",
+          "    value: 'application/json'",
+          "});",
+          "pm.request.headers.add({",
+          "    key: 'Accept',",
+          "    value: 'application/json'",
+          "});",
+          "pm.request.headers.add({",
+          "    key: 'User-Agent',",
+          "    value: 'PreConstructionIntelligence-Postman/1.0.0'",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Common test script for all requests",
+          "pm.test('Status code is 200', function () {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test('Response has required structure', function () {",
+          "    const response = pm.response.json();",
+          "    pm.expect(response).to.have.property('data');",
+          "    pm.expect(response).to.have.property('meta');",
+          "});",
+          "",
+          "pm.test('Response time is less than 2000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Core API",
+      "description": "Core project and analytics endpoints",
+      "item": [
+        {
+          "name": "Get Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects/?page=1&page_size=20&search=&status=&ordering=-created_at",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", ""],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "status",
+                  "value": ""
+                },
+                {
+                  "key": "ordering",
+                  "value": "-created_at"
+                }
+              ]
+            },
+            "description": "Get list of projects with pagination and filtering"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects/{{project_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "{{project_id}}", ""]
+            },
+            "description": "Get a specific project by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Downtown Office Complex\",\n  \"description\": \"Modern office building with sustainable features\",\n  \"status\": \"planning\",\n  \"start_date\": \"2024-06-01\",\n  \"estimated_completion\": \"2025-12-31\",\n  \"budget\": 25000000,\n  \"location\": \"Downtown Business District\",\n  \"project_manager\": \"John Smith\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/projects/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", ""]
+            },
+            "description": "Create a new project"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Downtown Office Complex - Updated\",\n  \"description\": \"Modern office building with sustainable features and LEED certification\",\n  \"status\": \"active\",\n  \"start_date\": \"2024-06-01\",\n  \"estimated_completion\": \"2025-08-31\",\n  \"budget\": 27500000,\n  \"location\": \"Downtown Business District\",\n  \"project_manager\": \"John Smith\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/projects/{{project_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "{{project_id}}", ""]
+            },
+            "description": "Update an existing project"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects/{{project_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "{{project_id}}", ""]
+            },
+            "description": "Delete a project"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Suppliers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/suppliers/?page=1&page_size=20&search=&min_rating=&ordering=-rating",
+              "host": ["{{base_url}}"],
+              "path": ["api", "suppliers", ""],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "min_rating",
+                  "value": ""
+                },
+                {
+                  "key": "ordering",
+                  "value": "-rating"
+                }
+              ]
+            },
+            "description": "Get list of suppliers with filtering and pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Supplier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"ABC Construction\",\n  \"contact_person\": \"Mike Johnson\",\n  \"email\": \"mike@abc-construction.com\",\n  \"phone\": \"555-0123\",\n  \"address\": \"123 Construction Ave, Building City, BC 12345\",\n  \"specialties\": [\"general_contractor\", \"foundation\"],\n  \"rating\": 4.8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/suppliers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "suppliers", ""]
+            },
+            "description": "Create a new supplier"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI/ML Integration",
+      "description": "Machine learning models and predictions",
+      "item": [
+        {
+          "name": "Get ML Predictions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ai/predictions/?page=1&page_size=20&model_name=&prediction_type=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ai", "predictions", ""],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "model_name",
+                  "value": ""
+                },
+                {
+                  "key": "prediction_type",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get list of ML predictions"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ML Prediction",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_name\": \"cost_prediction_v2\",\n  \"prediction_type\": \"cost_prediction\",\n  \"input_data\": {\n    \"project_size\": 50000,\n    \"location\": \"urban\",\n    \"complexity\": \"high\",\n    \"materials\": [\"steel\", \"concrete\", \"glass\"],\n    \"project_type\": \"office\",\n    \"sustainability_level\": \"leed_gold\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ai/predictions/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ai", "predictions", ""]
+            },
+            "description": "Create a new ML prediction request"
+          },
+          "response": []
+        },
+        {
+          "name": "Train ML Model",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_name\": \"cost_prediction_v3\",\n  \"model_type\": \"cost_prediction\",\n  \"training_data\": {\n    \"data_source\": \"historical_projects\",\n    \"features\": [\"size\", \"location\", \"complexity\", \"materials\", \"project_type\"],\n    \"target\": \"final_cost\",\n    \"validation_split\": 0.2\n  },\n  \"parameters\": {\n    \"algorithm\": \"xgboost\",\n    \"max_depth\": 6,\n    \"learning_rate\": 0.1,\n    \"n_estimators\": 100,\n    \"random_state\": 42\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ai/models/train/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ai", "models", "train", ""]
+            },
+            "description": "Train a new ML model"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Model Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ai/models/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ai", "models", ""]
+            },
+            "description": "Get list of available ML models"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "description": "Historical data analytics and reporting",
+      "item": [
+        {
+          "name": "Get Analytics Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/dashboard/?project_id=&start_date=&end_date=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analytics", "dashboard", ""],
+              "query": [
+                {
+                  "key": "project_id",
+                  "value": ""
+                },
+                {
+                  "key": "start_date",
+                  "value": ""
+                },
+                {
+                  "key": "end_date",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get analytics dashboard data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/projects/{{project_id}}/?start_date=&end_date=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analytics", "projects", "{{project_id}}", ""],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": ""
+                },
+                {
+                  "key": "end_date",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get analytics for a specific project"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Risk Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/risks/?project_id=&risk_type=&start_date=&end_date=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analytics", "risks", ""],
+              "query": [
+                {
+                  "key": "project_id",
+                  "value": ""
+                },
+                {
+                  "key": "risk_type",
+                  "value": ""
+                },
+                {
+                  "key": "start_date",
+                  "value": ""
+                },
+                {
+                  "key": "end_date",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get risk analytics data"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Risk Analysis",
+      "description": "Risk assessment and management",
+      "item": [
+        {
+          "name": "Get Risks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/risks/?page=1&page_size=20&project_id=&risk_type=&status=&probability=&impact=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "risks", ""],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "project_id",
+                  "value": ""
+                },
+                {
+                  "key": "risk_type",
+                  "value": ""
+                },
+                {
+                  "key": "status",
+                  "value": ""
+                },
+                {
+                  "key": "probability",
+                  "value": ""
+                },
+                {
+                  "key": "impact",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get list of risk assessments"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Risk Assessment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"risk_type\": \"financial\",\n  \"description\": \"Budget overrun due to material cost increases\",\n  \"probability\": \"medium\",\n  \"impact\": \"high\",\n  \"mitigation_strategy\": \"Establish price escalation clauses with suppliers\",\n  \"status\": \"open\",\n  \"assigned_to\": \"Project Manager\",\n  \"due_date\": \"2024-02-15\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/risks/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "risks", ""]
+            },
+            "description": "Create a new risk assessment"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Risk Assessment",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"risk_type\": \"financial\",\n  \"description\": \"Budget overrun due to material cost increases\",\n  \"probability\": \"medium\",\n  \"impact\": \"high\",\n  \"mitigation_strategy\": \"Establish price escalation clauses with suppliers and implement cost monitoring\",\n  \"status\": \"mitigated\",\n  \"assigned_to\": \"Project Manager\",\n  \"due_date\": \"2024-02-15\",\n  \"resolution_date\": \"2024-01-20\",\n  \"resolution_notes\": \"Successfully negotiated fixed-price contracts with key suppliers\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/risks/{{risk_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "risks", "{{risk_id}}", ""]
+            },
+            "description": "Update a risk assessment"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Integrations",
+      "description": "External system integrations",
+      "item": [
+        {
+          "name": "Get Integrations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integrations/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integrations", ""]
+            },
+            "description": "Get list of available integrations"
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Integration",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"integration_name\": \"procore\",\n  \"project_id\": 1,\n  \"sync_type\": \"full\",\n  \"options\": {\n    \"include_attachments\": true,\n    \"sync_comments\": true\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/integrations/sync/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integrations", "sync", ""]
+            },
+            "description": "Trigger synchronization for a specific integration"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Integration Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integrations/status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integrations", "status", ""]
+            },
+            "description": "Get status of all integrations"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Real-time Data (Kafka)",
+      "description": "Real-time data streaming endpoints",
+      "item": [
+        {
+          "name": "Get Kafka Topics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/kafka/topics/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "kafka", "topics", ""]
+            },
+            "description": "Get list of available Kafka topics"
+          },
+          "response": []
+        },
+        {
+          "name": "Publish Message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic\": \"construction.projects\",\n  \"message\": {\n    \"event_type\": \"project.updated\",\n    \"project_id\": 1,\n    \"timestamp\": \"2024-01-15T10:30:00Z\",\n    \"data\": {\n      \"name\": \"Downtown Office Complex\",\n      \"status\": \"active\",\n      \"progress\": 25,\n      \"last_updated\": \"2024-01-15T10:30:00Z\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/kafka/publish/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "kafka", "publish", ""]
+            },
+            "description": "Publish a message to a Kafka topic"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Topic Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/kafka/statistics/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "kafka", "statistics", ""]
+            },
+            "description": "Get Kafka topic statistics and metrics"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Utilities",
+      "description": "Utility and status endpoints",
+      "item": [
+        {
+          "name": "API Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "status", ""]
+            },
+            "description": "Get API status and health information"
+          },
+          "response": []
+        },
+        {
+          "name": "API Documentation Schema",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/schema/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "schema", ""]
+            },
+            "description": "Get OpenAPI schema for the API"
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health", ""]
+            },
+            "description": "Health check endpoint"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
